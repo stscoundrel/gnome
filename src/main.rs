@@ -1,6 +1,6 @@
 use std::fs;
 use std::io;
-use gnome::{initialize_directories, get_desktop_dir, is_image_file, is_screenshot};
+use gnome::{initialize_directories, get_desktop_dir, is_image_file, is_screenshot, move_file};
 
 fn main() -> io::Result<()> {
     if let Some(desktop_dir) = get_desktop_dir() {
@@ -13,16 +13,16 @@ fn main() -> io::Result<()> {
             let file_path = entry.path();
 
             if file_path.is_file() && is_image_file(&file_path) {
-                let mut dest_path = images_dir.join(entry.file_name());
+                let mut dest_dir = &images_dir;
                 images_count += 1;
 
                 if is_screenshot(&file_path) {
-                    dest_path = screenshots_dir.join(entry.file_name());
+                    dest_dir = &screenshots_dir;
                     screenshots_count += 1;
                     images_count -= 1;
                 }
 
-                fs::rename(&file_path, &dest_path)?;
+                move_file(&file_path, dest_dir)?;
             }
         }
 

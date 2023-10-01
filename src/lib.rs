@@ -1,4 +1,5 @@
 use std::fs;
+use std::io::Error;
 use std::path::{Path, PathBuf};
 
 pub fn initialize_directories(desktop_dir: &Path) -> (PathBuf, PathBuf) {
@@ -34,4 +35,24 @@ pub fn is_screenshot(file_path: &Path) -> bool {
 
 pub fn get_desktop_dir() -> Option<PathBuf> {
     dirs::desktop_dir()
+}
+
+pub fn move_file(file_path: &Path, dest_dir: &Path) -> Result<(), Error> {
+    // Gracefully moves files without overwrites or samename losses.
+    let mut new_path = dest_dir.join(file_path.file_name().unwrap());
+    print!("{:?}", new_path);
+
+    let mut counter = 1;
+    while new_path.exists() {
+        let new_file_name = format!(
+            "{} ({}).{}",
+            file_path.file_stem().unwrap().to_string_lossy(),
+            counter,
+            file_path.extension().unwrap().to_string_lossy()
+        );
+        new_path = dest_dir.join(new_file_name);
+        counter += 1;
+    }
+
+    fs::rename(file_path, new_path)
 }
