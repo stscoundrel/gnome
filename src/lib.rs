@@ -6,13 +6,13 @@ pub fn initialize_directories(desktop_dir: &Path) -> (PathBuf, PathBuf, PathBuf)
     // Create destination directories, if they're missing.
     let screenshors_dir = desktop_dir.join("gnome-screenshots");
     let images_dir = desktop_dir.join("gnome-images");
-    let pdfs_dir = desktop_dir.join("gnome-pdfs");
+    let docs_dir = desktop_dir.join("gnome-documents");
 
     fs::create_dir_all(&screenshors_dir).unwrap();
     fs::create_dir_all(&images_dir).unwrap();
-    fs::create_dir_all(&pdfs_dir).unwrap();
+    fs::create_dir_all(&docs_dir).unwrap();
 
-    (images_dir, screenshors_dir, pdfs_dir)
+    (images_dir, screenshors_dir, docs_dir)
 }
 
 pub fn is_image_file(file_path: &Path) -> bool {
@@ -35,9 +35,9 @@ pub fn is_screenshot(file_path: &Path) -> bool {
     }
 }
 
-pub fn is_pdf_file(file_path: &Path) -> bool {
+pub fn is_document(file_path: &Path) -> bool {
     if let Some(ext) = file_path.extension() {
-        matches!(ext.to_str(), Some("pdf"))
+        matches!(ext.to_str(), Some("pdf") | Some("docx") | Some("odt"))
     } else {
         false
     }
