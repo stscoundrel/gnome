@@ -37,7 +37,7 @@ pub fn is_screenshot(file_path: &Path) -> bool {
 
 pub fn is_document(file_path: &Path) -> bool {
     if let Some(ext) = file_path.extension() {
-        matches!(ext.to_str(), Some("pdf") | Some("docx") | Some("odt"))
+        matches!(ext.to_str(), Some("pdf") | Some("docx") | Some("odt") | Some("txt"))
     } else {
         false
     }
