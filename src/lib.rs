@@ -17,7 +17,7 @@ pub fn initialize_directories(desktop_dir: &Path) -> (PathBuf, PathBuf, PathBuf)
 
 pub fn is_image_file(file_path: &Path) -> bool {
     if let Some(ext) = file_path.extension() {
-        matches!(ext.to_str(), Some("jpg") | Some("jpeg") | Some("png") | Some("gif") | Some("webp"))
+        matches!(ext.to_str(), Some("jpg") | Some("jpeg") | Some("png") | Some("gif") | Some("webp") | Some("jfif"))
     } else {
         false
     }
