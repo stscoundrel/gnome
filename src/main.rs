@@ -39,5 +39,9 @@ fn main() -> io::Result<()> {
         println!("Gnome could not find the desktop :(.");
     }
 
+    // Any key input to exit.
+    let mut input = String::new();
+    io::stdin().read_line(&mut input).expect("Failed to read input");    
+
     Ok(())
 }
